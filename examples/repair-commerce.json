@@ -1,0 +1,23 @@
+{
+  "source": "example://repair-commerce",
+  "principal": "synthetic-demo",
+  "tables": [
+    {
+      "name": "demo.sales.orders",
+      "description": "Synthetic schema: order totals in integer cents.",
+      "columns": [
+        {"name": "order_id", "data_type": "BIGINT"},
+        {"name": "customer_id", "data_type": "BIGINT"},
+        {"name": "total_cents", "data_type": "BIGINT"}
+      ]
+    },
+    {
+      "name": "demo.sales.reviews",
+      "description": "Synthetic schema: a customer can write multiple reviews.",
+      "columns": [
+        {"name": "review_id", "data_type": "BIGINT"},
+        {"name": "customer_id", "data_type": "BIGINT"}
+      ]
+    }
+  ]
+}

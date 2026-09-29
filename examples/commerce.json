@@ -1,0 +1,25 @@
+{
+  "version": 1,
+  "source": "example://commerce",
+  "principal": "example-user",
+  "captured_at": "2026-09-28T00:00:00+00:00",
+  "tables": [
+    {"name": "demo.sales.customers", "description": "One row per customer", "columns": [
+      {"name": "customer_id", "data_type": "BIGINT"},
+      {"name": "region", "data_type": "STRING"}
+    ]},
+    {"name": "demo.sales.orders", "description": "One row per order", "columns": [
+      {"name": "order_id", "data_type": "BIGINT"},
+      {"name": "customer_id", "data_type": "BIGINT"},
+      {"name": "amount", "data_type": "DECIMAL(18,2)"},
+      {"name": "status", "data_type": "STRING"}
+    ]}
+  ],
+  "queries": [
+    {"id": "orders-customers-example", "sql": "SELECT c.region, o.amount FROM demo.sales.orders o JOIN demo.sales.customers c ON o.customer_id = c.customer_id"}
+  ],
+  "terms": [
+    {"name": "Booked revenue", "definition": "SUM(amount) for orders with status = paid, in USD", "tables": ["demo.sales.orders"]}
+  ],
+  "lineage": []
+}

@@ -1,0 +1,39 @@
+# Template only. Copy into your repository after configuring the paths below.
+# The approved contract and checker come from the trusted PR BASE revision.
+# Only the candidate SQL is read from the PR head; no PR code is installed/executed.
+name: revenue-contract
+on:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  revenue-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: trusted
+          persist-credentials: false
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.pull_request.head.sha }}
+          path: candidate
+          persist-credentials: false
+      - uses: astral-sh/setup-uv@v6
+        with:
+          version: '0.12.7'
+          python-version: '3.12'
+      # Assumes LakeContext source + uv.lock are committed in trusted/tools/lakecontext.
+      # Alternatively install your verified, pinned internal wheel in an isolated environment.
+      - name: Install trusted checker
+        run: uv sync --locked --directory trusted/tools/lakecontext
+      - name: Check SQL against base-branch approval
+        working-directory: trusted/tools/lakecontext
+        run: >-
+          uv run --locked lakecontext check-regression
+          ../../semantic-contracts/revenue.contract.json
+          ../../../candidate/analytics/revenue.sql
+# Configure this as a required check and protect workflow/checker/contract ownership.
+# No continue-on-error, pull_request_target, secrets, or candidate build commands.

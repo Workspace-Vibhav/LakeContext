@@ -1,0 +1,10 @@
+{
+  "model_id": "commerce",
+  "metric": "booked_merchandise_revenue",
+  "definition_version": "booked-v1",
+  "currency": "INR",
+  "basis": "net_line_discounts_excluding_tax_shipping_before_refunds",
+  "group_by": ["category", "region"],
+  "start_date": "2026-01-01",
+  "end_date": "2026-02-01"
+}
